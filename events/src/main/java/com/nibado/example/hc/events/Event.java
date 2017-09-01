@@ -15,7 +15,8 @@ import java.time.ZonedDateTime;
         property = "key")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = TimeEvent.class, name = "time"),
-        @JsonSubTypes.Type(value = LoginEvent.class, name = "login")
+        @JsonSubTypes.Type(value = LoginEvent.class, name = "login"),
+        @JsonSubTypes.Type(value = LogEvent.class, name = "log"),
 })
 public abstract class Event {
     private final String key;

@@ -1,34 +1,52 @@
-var stompClient = null;
-var events = [];
+var appModule = angular.module('myApp', []);
 
+appModule.controller('MainCtrl', ['$scope',
+    function($scope) {
+        var stompClient;
 
-function setConnected(connected) {
-    document.getElementById('connect').disabled = connected;
-    document.getElementById('disconnect').disabled = !connected;
-    document.getElementById('conversationDiv').style.visibility = connected ? 'visible' : 'hidden';
-    document.getElementById('response').innerHTML = '';
-}
+        $scope.timeEvents = [];
+        $scope.otherEvents = [];
 
-function connect() {
-    stompClient = Stomp.client('ws://localhost:8080/eventsink');
-    stompClient.debug = null;
-    stompClient.connect({}, function(frame) {
-        setConnected(true);
-        console.log('Connected: ' + frame);
+        $scope.connect = function() {
+            stompClient = Stomp.client('ws://localhost:8080/eventsink');
+            stompClient.debug = null;
+            stompClient.connect({}, function(frame) {
+                console.log('Connected: ' + frame);
 
-        stompClient.subscribe('/topic/events', function(event){
-            showGreeting(event.body);
-        });
-    });
-}
+                stompClient.subscribe('/topic/events', function(event){
+                    $scope.addEvent(JSON.parse(event.body));
+                });
+            });
+        }
 
-function disconnect() {
-    if (stompClient != null) {
-        stompClient.disconnect();
+        $scope.disconnect = function() {
+            if (stompClient != null) {
+                stompClient.disconnect();
+            }
+        }
+
+        $scope.addEvent = function(event) {
+            event.time = Date.parse(event.time);
+            $scope.$apply(function() {
+                if(event.key === 'time') {
+                    $scope.timeEvents.push(event);
+                } else {
+                    if(event.key === 'log') {
+                        event.content = event.level + ' ' + event.message;
+                    } else if(event.key === 'login') {
+                        event.content = 'User ' + event.userId + ' logged in';
+                    } else {
+                        event.content = 'Unknown';
+                    }
+                    $scope.otherEvents.push(event);
+                }
+            });
+            console.log(event);
+        }
+
+        $scope.connect();
     }
-    setConnected(false);
-    console.log("Disconnected");
-}
+]);
 
 function showGreeting(message) {
     events.push(message);

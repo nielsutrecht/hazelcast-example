@@ -34,4 +34,19 @@ public class EventSerializerTest {
         assertThat(other.getTime()).isEqualTo(event.getTime());
         assertThat(other.getUserId()).isEqualTo(event.getUserId());
     }
+
+    @Test
+    public void logEvent() {
+        EventSerializer serializer = new EventSerializer();
+        LogEvent event = new LogEvent(LogEvent.Level.ERROR, "Could not connect");
+
+        String data = serializer.toString(event);
+
+        LogEvent other = (LogEvent) serializer.fromString(data);
+
+        assertThat(other.getKey()).isEqualTo(event.getKey());
+        assertThat(other.getTime()).isEqualTo(event.getTime());
+        assertThat(other.getLevel()).isEqualTo(LogEvent.Level.ERROR);
+        assertThat(other.getMessage()).isEqualTo("Could not connect");
+    }
 }

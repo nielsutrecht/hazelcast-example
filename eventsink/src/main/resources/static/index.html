@@ -1,21 +1,54 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Hello WebSocket</title>
-</head>
-<body onload="disconnect()">
-<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being enabled. Please enable
-    Javascript and reload this page!</h2></noscript>
-<div>
-    <div>
-        <button id="connect" onclick="connect();">Connect</button>
-        <button id="disconnect" disabled="disabled" onclick="disconnect();">Disconnect</button>
-    </div>
-    <div id="conversationDiv">
-        <pre id="response"></pre>
-    </div>
-</div>
-<script src="stomp.js"></script>
-<script src="app.js"></script>
-</body>
+<!doctype html>
+<html ng-app="myApp">
+    <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+        <title>Event Sink - HazelCast example</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" href="libs/bootstrap/css/bootstrap.css">
+    </head>
+    <body ng-controller="MainCtrl">
+        <noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being enabled. Please enable
+            Javascript and reload this page!</h2></noscript>
+        <div class="container">
+            <h1>Event Sink console</h1>
+            <p>This application displays events received by this Event Sink from the Event Source.</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-12"><h2>Other events</h2></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3"><b>Time</b></div>
+                        <div class="col-md-9"><b>Content</b></div>
+                    </div>
+                    <div class="row" ng-repeat="e in otherEvents | orderBy:'-' | limitTo: 10">
+                        <div class="col-md-3">{{e.time | date:'HH:mm:ss'}}</div>
+                        <div class="col-md-9">{{e.content}}</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-12"><h2>Time events</h2></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3"><b>Time</b></div>
+                        <div class="col-md-9"><b>Interval</b></div>
+                    </div>
+                    <div class="row" ng-repeat="e in timeEvents | orderBy:'-' | limitTo: 10">
+                        <div class="col-md-3">{{e.time | date:'HH:mm:ss'}}</div>
+                        <div class="col-md-9">{{e.interval}}</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <script src="libs/jquery/jquery.js"></script>
+        <script src="libs/bootstrap/js/bootstrap.js"></script>
+        <script src="libs/angular/angular.js"></script>
+        <script src="libs/stomp.js"></script>
+        <script src="app.js"></script>
+    </body>
 </html>
