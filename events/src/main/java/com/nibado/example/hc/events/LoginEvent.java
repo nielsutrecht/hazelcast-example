@@ -5,18 +5,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.time.ZonedDateTime;
-import java.util.UUID;
 
 @Data
 public class LoginEvent extends Event {
-    private final UUID userId;
+    private final String userId;
 
-    public LoginEvent(UUID userId) {
+    public LoginEvent(String userId) {
         this(userId, ZonedDateTime.now());
     }
 
     @JsonCreator
-    public LoginEvent(@JsonProperty("userId") final UUID userId, @JsonProperty("time") final ZonedDateTime time) {
+    public LoginEvent(@JsonProperty("userId") final String userId, @JsonProperty("time") final ZonedDateTime time) {
         super("login", time);
         this.userId = userId;
     }

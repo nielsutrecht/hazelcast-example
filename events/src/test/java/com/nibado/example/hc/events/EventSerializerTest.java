@@ -2,8 +2,6 @@ package com.nibado.example.hc.events;
 
 import org.junit.Test;
 
-import java.util.UUID;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class EventSerializerTest {
@@ -24,7 +22,7 @@ public class EventSerializerTest {
     @Test
     public void loginEvent() {
         EventSerializer serializer = new EventSerializer();
-        LoginEvent event = new LoginEvent(new UUID(0, 0));
+        LoginEvent event = new LoginEvent("john@example.com");
 
         String data = serializer.toString(event);
 

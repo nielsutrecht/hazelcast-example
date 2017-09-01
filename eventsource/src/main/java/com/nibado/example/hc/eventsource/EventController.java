@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
-
 @Slf4j
 @RestController
 @RequestMapping("/event")
@@ -21,8 +19,8 @@ public class EventController {
         this.service = service;
     }
 
-    @PostMapping("/login/{userId}")
-    public ResponseEntity<?> login(@PathVariable final UUID userId) {
+    @PostMapping("/login/{userId:.+}")
+    public ResponseEntity<?> login(@PathVariable final String userId) {
         service.publish(new LoginEvent(userId));
         log.info("Published user login event for user {}", userId);
 

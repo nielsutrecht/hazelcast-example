@@ -16,28 +16,29 @@
 <div class="container" ng-controller="MainCtrl">
 	<h1>Event Source console</h1>
 	<p>Simple SPA application that can be used to 'fire' off events that get distributed via HazelCast</p>
-	<h2>User</h2>
-	<p>Selected user: {{userId}}</p>
-	<p>Select:
-		<button class="btn" ng-click="userId = '00000000-0000-0000-0000-000000000000'"> 0 </button>
-		<button class="btn" ng-click="userId = '00000000-0000-0000-0000-000000000001'"> 1 </button>
-		<button class="btn" ng-click="userId = '00000000-0000-0000-0000-000000000002'"> 2 </button>
-		<button class="btn" ng-click="userId = '00000000-0000-0000-0000-000000000003'"> 3 </button>
-	</p>
-	<h2>Events</h2>
-	<p>Send event
-		<button class="btn" ng-click="login()">Login</button>
-	</p>
-	<p>Log event:
-		<select name="logLevel" ng-model="logLevel">
-			<option value="DEBUG">DEBUG</option>
-			<option value="INFO" selected>INFO</option>
-			<option value="WARN">WARN</option>
-			<option value="ERROR">ERROR</option>
-		</select>
-		<input ng-model="logMessage"/>
-		<button class="btn" ng-click="log()">Log</button>
-	</p>
+
+	<h2>User login event</h2>
+
+	<button class="btn" ng-click="login('john@example.com')"> John </button>
+	<button class="btn" ng-click="login('jill@example.com')"> Jill </button>
+	<button class="btn" ng-click="login('jack@example.com')"> Jack </button>
+	<button class="btn" ng-click="login('jenny@example.com')"> Jenny </button>
+
+	<h2>Log event</h2>
+
+	<select name="logLevel" ng-model="logLevel">
+		<option value="DEBUG">DEBUG</option>
+		<option value="INFO" selected>INFO</option>
+		<option value="WARN">WARN</option>
+		<option value="ERROR">ERROR</option>
+	</select>
+	<input ng-model="logMessage"/>
+	<button class="btn" ng-click="log()">Log</button>
+
+	<span ng-if="lastSent">
+		<h2>Last event sent</h2>
+		{{lastSent}} at {{lastSentAt | date:'HH:mm:ss'}}
+	</span>
 </div>
 </body>
 </html>

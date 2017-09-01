@@ -2,20 +2,29 @@ var appModule = angular.module('myApp', []);
 
 appModule.controller('MainCtrl', ['mainService','$scope','$http',
     function(mainService, $scope, $http) {
-        $scope.userId = '00000000-0000-0000-0000-000000000000';
         $scope.logLevel = 'INFO';
         $scope.logMessage = '';
 
-        $scope.login = function() {
-            mainService.loginEvent($scope.userId).then(function(data) {
+        $scope.lastSent = null;
+        $scope.lastSentAt = null;
+
+        $scope.login = function(userId) {
+            mainService.loginEvent(userId).then(function(data) {
+                $scope.sent('Login for user ' + userId);
             });
         }
 
         $scope.log = function() {
             mainService.logEvent($scope.logLevel, $scope.logMessage).then(function(data) {
+                $scope.sent('Log message with level ' + $scope.logLevel + ' and message ' + $scope.logMessage);
             });
 
             $scope.logMessage = '';
+        }
+
+        $scope.sent = function(message) {
+            $scope.lastSent = message;
+            $scope.lastSentAt = new Date();
         }
     }
 ]);
